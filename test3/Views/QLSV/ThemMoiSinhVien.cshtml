@@ -67,32 +67,25 @@
             @{
                 test3.Models.QLSVEntities db = new test3.Models.QLSVEntities();
                 List<test3.Models.Khoa> dsKhoa = db.Khoas.ToList();
-                List<test3.Models.Lop> dsLop = db.Lops.ToList();
             }
-            <select name="MaKhoa" id="MaKhoa">
-                <option>Khoa</option>
-                @foreach (var kh in dsKhoa)
-                {
-                    <option value="@kh.MaKhoa">@kh.TenKhoa</option>
-                }
-            </select>
-            @*@Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })*@
+
+            @Html.DropDownListFor(model => model.MaKhoa, new SelectList(dsKhoa, "MaKhoa", "TenKhoa"), "Chọn khoa...", new { @class = "form-control", id = "MaKhoa", style = "width: 300px;" })
+
+            
+            @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
         </div>
     </div>
+
 
     <div class="form-group">
         @Html.LabelFor(model => model.MaLop, "Mã lớp", new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <select name="MaLop">
-                <option>Lớp</option>
-                @foreach (var kh in dsLop)
-                {
-                    <option value="@kh.MaLop">@kh.MaLop</option>
-                }
-            </select>
-            @*@Html.EditorFor(model => model.MaLop, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
-                @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })*@
+            @{
+                List<test3.Models.Lop> dsLop = db.Lops.ToList();
+            }
+            @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaLop", "MaKhoa"), "Chọn lớp...", new { @class = "form-control", style = "width: 300px;", id = "MaLop" })
+
+            @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
         </div>
     </div>
 
