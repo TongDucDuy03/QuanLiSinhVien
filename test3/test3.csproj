@@ -374,7 +374,7 @@
     <Content Include="Views\Home\DashBoard.cshtml" />
     <Content Include="Views\QLSV\DanhSachSinhVien.cshtml" />
     <Content Include="Views\QLSV\ThemMoiSinhVien.cshtml" />
-    <Content Include="Views\QLSV\PartialLopList.cshtml" />
+    <Content Include="Views\QLSV\Suathongtin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -67,6 +67,8 @@ namespace test3.Controllers
                 ViewBag.NamChecked = false;
                 ViewBag.NuChecked = true;
             }
+            ViewBag.KhoaCu = sinhVien.MaKhoa;
+            ViewBag.LopCu = sinhVien.MaLop;
             return View(sinhVien);
         }
         [HttpPost]
@@ -76,19 +78,6 @@ namespace test3.Controllers
             db.SaveChanges();//Entity Framework sẽ tạo truy vấn SQL UPDATE để cập nhật dữ liệu của sinhVien trong cơ sở dữ liệu.
             return RedirectToAction("DanhSachSinhVien");
         }
-        public ActionResult GetLopByKhoa(string selectedKhoa)
-        {
-            // Thực hiện truy vấn để lấy danh sách lớp dựa trên khoa
-            // selectedKhoa là mã khoa đã chọn
-            List<Lop> dsLop = db.Lops.Where(l => l.MaKhoa == selectedKhoa).ToList();
-
-            // Trả về danh sách lớp dưới dạng HTML
-            return Content(RenderPartialViewToString("PartialLopList", dsLop));
-        }
-
-        private string RenderPartialViewToString(string v, List<Lop> dsLop)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
