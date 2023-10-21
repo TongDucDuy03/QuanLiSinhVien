@@ -1,0 +1,117 @@
+﻿@model test3.Models.SinhVien
+@{
+    ViewBag.Title = "ThemSinhVien";
+}
+
+<h2>ThemSinhVien</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.SvUser, "Mã sinh viên", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MSSV, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+            @Html.ValidationMessageFor(model => model.MSSV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SvUser, "Tài khoản", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SvUser, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+            @Html.ValidationMessageFor(model => model.SvUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SvPass, "Mật khẩu", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SvPass, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+            @Html.ValidationMessageFor(model => model.SvPass, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HoTenSV, "Họ tên", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HoTenSV, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+            @Html.ValidationMessageFor(model => model.HoTenSV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NgaySinhSV, "Ngày sinh", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NgaySinhSV, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;", type = "date" } })
+            @Html.ValidationMessageFor(model => model.NgaySinhSV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GioiTinh, "Giới tính", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div>
+                <input type="radio" value="True" name="gioitinh">Nam
+                <input type="radio" value="False" name="gioitinh">Nữ
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaKhoa, "Mã khoa", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                test3.Models.QLSVEntities db = new test3.Models.QLSVEntities();
+                List<test3.Models.Khoa> dsKhoa = db.Khoas.ToList();
+                List<test3.Models.Lop> dsLop = db.Lops.ToList();
+            }
+            <select name="MaKhoa" id="MaKhoa">
+                <option>Khoa</option>
+                @foreach (var kh in dsKhoa)
+                {
+                    <option value="@kh.MaKhoa">@kh.TenKhoa</option>
+                }
+            </select>
+            @*@Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaLop, "Mã lớp", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select name="MaLop">
+                <option>Lớp</option>
+                @foreach (var kh in dsLop)
+                {
+                    <option value="@kh.MaLop">@kh.MaLop</option>
+                }
+            </select>
+            @*@Html.EditorFor(model => model.MaLop, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+                @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NoiSinh, "Nơi sinh", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control", style = "width: 300px;" } })
+            @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "DanhSachSinhVien")
+</div>

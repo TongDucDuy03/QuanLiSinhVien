@@ -1,0 +1,8 @@
+﻿@model List<test3.Models.Lop>
+
+<select name="MaLop">
+    @foreach (var lop in Model)
+    {
+        <option value="@lop.MaLop">@lop.MaLop</option>
+    }
+</select>
