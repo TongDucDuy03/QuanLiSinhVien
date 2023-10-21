@@ -28,7 +28,7 @@ namespace test3.Controllers
                 worksheet.Cell(1, 4).Value = "Giới tính";
                 worksheet.Cell(1, 5).Value = "Khoa";
                 worksheet.Cell(1, 6).Value = "Lớp";
-                worksheet.Cell(1, 6).Value = "Nơi sinh";
+                worksheet.Cell(1, 7).Value = "Nơi sinh";
                 // Ghi danh sách sinh viên vào file Excel
                 for (int i = 0; i < SinhViens.Count; i++)
                 {
