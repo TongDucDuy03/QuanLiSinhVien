@@ -42,7 +42,7 @@ body {
     border:1px solid #f3f3f3;
 }
 h2 {
-    color: #f00;
+    color: #1a7cc7;
 }
 h4 {
     padding-top:10px;
@@ -206,16 +206,16 @@ max-width:170px;
 }
 
 .navbar-cls-top .navbar-brand {
-	color: #fff;
-background: #C90000;
-width: 260px;
-text-align: center;
-height: 60px;
-font-size: 30px;
-font-weight: 700;
+    color: #fff;
+    background: #1a7cc7;
+    width: 260px;
+    text-align: center;
+    height: 60px;
+    font-size: 30px;
+    font-weight: 700;
 }
 .active-menu {
-    background-color:#C90000!important;
+    background-color: #1a7cc7;
 }
 
 .arrow {
@@ -261,12 +261,11 @@ font-weight: 700;
 .sidebar-collapse > .nav > li {
 	border-bottom: 1px solid rgba(107, 108, 109, 0.19);
 }
-.sidebar-collapse .nav > li > a:hover,
-.sidebar-collapse .nav > li > a:focus {
-	
-	background:#0A0A0A;
-	outline:0;
-}
+    .sidebar-collapse .nav > li > a:hover,
+    .sidebar-collapse .nav > li > a:focus {
+        background: #1a7cc7;
+        outline: 0;
+    }
 
 .nav-second-level > li > a:before ,
 .nav-third-level > li > a:before {
@@ -309,12 +308,10 @@ font-weight: 700;
 	border-bottom:none;
 	
 }
-.navbar-cls-top .navbar-brand:hover {
-
-background: #C90000;
-color:#fff;
-
-}
+    .navbar-cls-top .navbar-brand:hover {
+        background: #1a7cc7;
+        color: #fff;
+    }
 
 .navbar-default {
 border:0px solid black;
