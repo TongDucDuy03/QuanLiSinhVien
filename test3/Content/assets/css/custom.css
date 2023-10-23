@@ -215,7 +215,7 @@ max-width:170px;
     font-weight: 700;
 }
 .active-menu {
-    background-color: #1a7cc7;
+    background-color: #1a7cc7!important;
 }
 
 .arrow {
@@ -280,15 +280,15 @@ max-width:170px;
 }
 .nav-second-level > li > a:after,
 .nav-third-level > li > a:after {
-	content:"";
-	display:block;
-	position:absolute;
-	left:20px;
-	width:1px;
-	height:100%;
-	background:#ff0000;
-	top:0px;
-	z-index:10;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 20px;
+    width: 1px;
+    height: 100%;
+    background: #fff;
+    top: 0px;
+    z-index: 10;
 }
 .nav-second-level  > li:last-child > a:after,
 .nav-third-level  > li:last-child > a:after {
