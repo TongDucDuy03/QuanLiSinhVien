@@ -28,7 +28,6 @@ namespace test3.Controllers
             {
                 ViewBag.LoginFail = "Sai tài khoản hoặc mật khẩu!";
                 return View("Login");
-                asdsa
             }
             else
             {
