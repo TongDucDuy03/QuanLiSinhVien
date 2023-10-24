@@ -14,7 +14,7 @@ namespace test3.Models
     
     public partial class GiangVien
     {
-        public int MGV { get; set; }
+        public string MGV { get; set; }
         public string GvUser { get; set; }
         public string GvPass { get; set; }
         public string HoTenGV { get; set; }
