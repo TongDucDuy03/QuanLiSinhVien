@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using test3.Models;
@@ -37,20 +38,53 @@ namespace test3.Controllers
         [HttpPost]
         public ActionResult ThemMoiSinhVien(SinhVien sinhVien)
         {
-            QLSVEntities db = new QLSVEntities();
-            db.SinhViens.Add(sinhVien);
-            db.SaveChanges();
-            return RedirectToAction("DanhSachSinhVien");
+            // Kiểm tra họ tên sinh viên
+            if (string.IsNullOrEmpty(sinhVien.HoTenSV))
+            {
+                ModelState.AddModelError("HoTen", "Họ tên sinh viên là bắt buộc.");
+            }
+            else if (!Regex.IsMatch(sinhVien.HoTenSV, @"^[a-zA-Z\s]+$"))
+            {
+                ModelState.AddModelError("HoTen", "Họ tên sinh viên chỉ được chứa chữ cái và khoảng trắng.");
+            }
+
+            // Kiểm tra ngày sinh
+            if (sinhVien.NgaySinhSV >= DateTime.Now.Date)
+            {
+                ModelState.AddModelError("NgaySinh", "Ngày sinh phải nhỏ hơn ngày hiện tại.");
+            }
+            else
+            {
+                DateTime today = DateTime.Today;
+                int age = today.Year - sinhVien.NgaySinhSV.Year;
+                if (sinhVien.NgaySinhSV > today.AddYears(-age))
+                {
+                    age--;
+                }
+                if (age < 18)
+                {
+                    ModelState.AddModelError("NgaySinh", "Sinh viên phải đủ 18 tuổi.");
+                }
+            }
+
+            // Kiểm tra giới tính
+            if (sinhVien.GioiTinh == null)
+            {
+                ModelState.AddModelError("GioiTinh", "Giới tính là bắt buộc.");
+            }
+
+            // Kiểm tra các điều kiện hợp lệ
+            if (ModelState.IsValid)
+            {
+                QLSVEntities db = new QLSVEntities();
+                db.SinhViens.Add(sinhVien);
+                db.SaveChanges();
+                return RedirectToAction("DanhSachSinhVien");
+            }
+
+            return View(sinhVien); // Trả về view với thông tin sinh viên và các thông báo lỗi
         }
 
-        public ActionResult Xoa(string id)
-        {
-            QLSVEntities db = new QLSVEntities();
-            var sinhVien = db.SinhViens.Find(id);
-            db.SinhViens.Remove(sinhVien);
-            db.SaveChanges(); 
-            return RedirectToAction("DanhSachSinhVien");
-        }
 
         [HttpGet]
         public ActionResult Suathongtin(string id)
