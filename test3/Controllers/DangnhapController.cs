@@ -17,7 +17,7 @@ namespace test3.Controllers
             ADMIN aDMIN = new ADMIN();
             return View(aDMIN);
         }
-
+        dsadas
 
 
         // POST: Login/Create
