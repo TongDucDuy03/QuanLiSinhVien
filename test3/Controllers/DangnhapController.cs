@@ -16,8 +16,7 @@ namespace test3.Controllers
         {
             ADMIN aDMIN = new ADMIN();
             return View(aDMIN);
-        }asd
-
+        }
 
         // POST: Login/Create
         [HttpPost]
@@ -27,7 +26,8 @@ namespace test3.Controllers
             var status = QLSVEntities.ADMINs.FirstOrDefault(m => m.UserName == aDMIN.UserName && m.Password == aDMIN.Password);
             if (status == null)
             {
-                ViewBag.LoginStatus = 0;
+                ViewBag.LoginFail = "Sai tài khoản hoặc mật khẩu!";
+                return View("Login");
             }
             else
             {
