@@ -10,8 +10,7 @@
         <div style="display: flex">
             <input type="text" style="width:30%" name="searchMGV" class="form-control" placeholder="Nhập MGV cần tìm kiếm" /> &nbsp;
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-
-            @Html.ActionLink("Export", "ExportGiangVien", "Export", null, new { @class = "btn btn-primary", @style = "margin-left: 600px;" })
+            <button class="btn btn-primary" style="margin-left: 600px;"><a href="~/Export/ExportgiangVien" class="export-link">Export</a></button>
         </div>
     </div>
 </form>
