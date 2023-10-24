@@ -25,13 +25,13 @@
           <Key>
             <PropertyRef Name="MGV" />
           </Key>
-          <Property Name="MGV" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="MGV" Type="int" Nullable="false" />
           <Property Name="GvUser" Type="nvarchar" MaxLength="32" Nullable="false" />
           <Property Name="GvPass" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="HoTenGV" Type="nvarchar" MaxLength="32" Nullable="false" />
           <Property Name="NgaySinhGV" Type="date" Nullable="false" />
           <Property Name="GioiTinh" Type="bit" Nullable="false" />
-          <Property Name="MaKhoa" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MaKhoa" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Khoa">
           <Key>
@@ -104,7 +104,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GiangVien_MaKhoa">
-          <End Role="Khoa" Type="Self.Khoa" Multiplicity="1" />
+          <End Role="Khoa" Type="Self.Khoa" Multiplicity="0..1" />
           <End Role="GiangVien" Type="Self.GiangVien" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Khoa">
@@ -228,13 +228,13 @@
           <Key>
             <PropertyRef Name="MGV" />
           </Key>
-          <Property Name="MGV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="MGV" Type="Int32" Nullable="false" />
           <Property Name="GvUser" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GvPass" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HoTenGV" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NgaySinhGV" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="GioiTinh" Type="Boolean" Nullable="false" />
-          <Property Name="MaKhoa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaKhoa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Khoa" Relationship="Self.FK_GiangVien_MaKhoa" FromRole="GiangVien" ToRole="Khoa" />
         </EntityType>
         <EntityType Name="Khoa">
@@ -319,7 +319,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GiangVien_MaKhoa">
-          <End Role="Khoa" Type="Self.Khoa" Multiplicity="1" />
+          <End Role="Khoa" Type="Self.Khoa" Multiplicity="0..1" />
           <End Role="GiangVien" Type="Self.GiangVien" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Khoa">

@@ -207,7 +207,7 @@ max-width:170px;
 
 .navbar-cls-top .navbar-brand {
     color: #fff;
-    background: #fff;
+    background: #1a7cc7;
     width: 260px;
     text-align: center;
     height: 60px;
@@ -263,7 +263,7 @@ max-width:170px;
 }
     .sidebar-collapse .nav > li > a:hover,
     .sidebar-collapse .nav > li > a:focus {
-        background: #0A0A0A;
+        background: #1a7cc7;
         outline: 0;
     }
 
