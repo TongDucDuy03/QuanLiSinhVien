@@ -8,7 +8,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-}
+
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -83,7 +83,7 @@
             @{
                 List<test3.Models.Lop> dsLop = db.Lops.ToList();
             }
-            @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaLop", "MaKhoa"), "Chọn lớp...", new { @class = "form-control", id = "MaLop" })
+            @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaKhoa", "MaLop"), "Chọn lớp...", new { @class = "form-control", id = "MaLop" })
 
             @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
         </div>
@@ -104,7 +104,7 @@
     </div>
     
 </div>
-
+}
 <div>
     @Html.ActionLink("Back to List", "DanhSachSinhVien")
 </div>
