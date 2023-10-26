@@ -19,14 +19,40 @@ namespace test3.Controllers
             return View(danhSachSinhVien);
         }
         [HttpGet]
-        public ActionResult Search(string searchMSSV)
+        public ActionResult Search(string searchField, string searchValue)
         {
-            // Tìm kiếm sinh viên dựa trên MSSV
-            List<SinhVien> searchMssv = db.SinhViens.Where(s => s.MSSV == searchMSSV).ToList();
+            searchValue = searchValue.ToLower(); // Chuyển giá trị tìm kiếm về chữ thường
 
-            // Trả về view hiển thị danh sách sinh viên kết quả
-            return View("DanhSachSinhVien", searchMssv);
+            List<SinhVien> searchResults = new List<SinhVien>();
+
+            switch (searchField)
+            {
+                case "MSSV":
+                    searchResults = db.SinhViens.Where(s => s.MSSV.ToLower().StartsWith(searchValue)).ToList();
+                    break;
+                case "MaLop":
+                    searchResults = db.SinhViens.Where(s => s.MaLop.ToLower().StartsWith(searchValue)).ToList();
+                    break;
+                case "MaKhoa":
+                    searchResults = db.SinhViens.Where(s => s.MaKhoa.ToLower().StartsWith(searchValue)).ToList();
+                    break;
+                case "GioiTinh":
+                    // Trường "GioiTinh" là kiểu bit (1 hoặc 0)
+                    bool searchValueAsBool = (searchValue == "1" || searchValue == "true");
+                    searchResults = db.SinhViens.Where(s => s.GioiTinh == searchValueAsBool).ToList();
+                    break;
+                case "NoiSinh":
+                    searchResults = db.SinhViens.Where(s => s.NoiSinh.ToLower().StartsWith(searchValue)).ToList();
+                    break;
+                default:
+                    // Xử lý mặc định nếu không có trường nào được chọn
+                    break;
+            }
+
+            return View("DanhSachSinhVien", searchResults);
         }
+
+
 
         [HttpGet]
         public ActionResult ThemMoiSinhVien()
