@@ -8,20 +8,14 @@
 <form action="/QLSV/Search" method="get">
     <div class="form-group">
         <div style="display: flex">
-            <select name="searchField" class="form-control" style="width: 30%;">
-                <option value="MSSV">MSSV</option>
-                <option value="MaLop">Mã Lớp</option>
-                <option value="MaKhoa">Mã Khoa</option>
-                <option value="GioiTinh">Giới Tính</option>
-                <option value="NoiSinh">Nơi Sinh</option>
-            </select>
-            <input type="text" name="searchValue" class="form-control" placeholder="Nhập giá trị cần tìm kiếm" />
+            <input type="text" style="width:30%" name="searchMSSV" class="form-control" placeholder="Nhập MSSV cần tìm kiếm" /> &nbsp;
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
             @Html.ActionLink("Export", "ExportSinhVien", "Export", null, new { @class = "btn btn-primary", @style = "margin-left: 600px;" })
+
+
         </div>
     </div>
 </form>
-
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="table-responsive">
@@ -30,8 +24,8 @@
                     <tr>
                         <th>MSSV</th>
                         @*
-                            <th>SvUser</th>
-                            <th>SvPass</th>*@
+        <th>SvUser</th>
+        <th>SvPass</th>*@
                         <th>Họ tên</th>
                         <th>Ngày sinh</th>
                         <th>Giới tính</th>
@@ -48,8 +42,8 @@
                         <tr>
                             <td>@sinhVien.MSSV</td>
                             @*
-                                <td>@sinhVien.SvUser</td>
-                                <td>@sinhVien.SvPass</td>*@
+        <td>@sinhVien.SvUser</td>
+        <td>@sinhVien.SvPass</td>*@
                             <td>@sinhVien.HoTenSV</td>
                             <td>@sinhVien.NgaySinhSV.ToString("dd/MM/yyyy")</td>
                             <td>@(sinhVien.GioiTinh ? "Nam" : "Nữ")</td>
