@@ -85,7 +85,7 @@
                 List<test3.Models.Lop> dsLop = db.Lops.ToList();
             }
 
-            @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaKhoa", "MaLop"), "Chọn lớp...", new {@class = "form-control", style = "width: 300px;", id = "MaLop" })
+            @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaLop", "MaLop"), "Chọn lớp...", new {@class = "form-control", style = "width: 300px;", id = "MaLop" })
 
             @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
 
