@@ -56,13 +56,13 @@
                         <a href="@Url.Action("DanhSachSinhVien", "QLSV") "><i class="fa fa-qrcode fa-3x"></i> Khoa</a>
                     </li>
                     <li>
-                        <a href="#" class="@Html.Raw(ViewBag.ac == 7 || ViewBag.ac == 8? "active-menu" : "")"><i class="fa fa-desktop fa-3x"></i>Môn Học<span class="fa arrow"></span></a>
+                        <a href="#" class="@Html.Raw(ViewBag.ac == 8 || ViewBag.ac == 9? "active-menu" : "")"><i class="fa fa-desktop fa-3x"></i>Môn Học<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li class="nav nav-second-level">
-                                <a class="@Html.Raw(ViewBag.ac == 7 ? "active-menu" : "")" href="@Url.Action("DanhSachMonHoc", "QLMH")">Danh sách môn học</a>
+                                <a class="@Html.Raw(ViewBag.ac == 8 ? "active-menu" : "")" href="@Url.Action("DanhSachMonHoc", "QLMH")">Danh sách môn học</a>
                             </li>
                             <li>
-                                <a class="@Html.Raw(ViewBag.ac == 8 ? "active-menu" : "")" href="@Url.Action("ThemMonHoc", "QLMH")">Thêm mới môn học</a>
+                                <a class="@Html.Raw(ViewBag.ac == 9 ? "active-menu" : "")" href="@Url.Action("ThemMonHoc", "QLMH")">Thêm mới môn học</a>
                             </li>
                         </ul>
                     </li>

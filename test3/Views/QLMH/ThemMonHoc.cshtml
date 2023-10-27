@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "ThemMonHoc";
-    ViewBag.ac = 8;
+    ViewBag.ac = 9;
 }
 
 <h2>Thêm môn học</h2>
@@ -39,7 +39,6 @@
                 }
 
                 @Html.DropDownListFor(model => model.MaKhoa, new SelectList(dsKhoa, "MaKhoa", "TenKhoa"), "Chọn khoa...", new { @class = "form-control", id = "MaKhoa" })
-
 
                 @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
             </div>
