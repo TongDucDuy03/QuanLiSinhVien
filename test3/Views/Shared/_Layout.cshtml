@@ -53,13 +53,39 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="@Url.Action("DanhSachSinhVien", "QLSV") "><i class="fa fa-qrcode fa-3x"></i> Khoa</a>
+                        <a href="#" class="@Html.Raw(ViewBag.ac == 6 || ViewBag.ac == 7? "active-menu" : "")"><i class="fa fa-sitemap fa-3x"></i> Khoa<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="@Html.Raw(ViewBag.ac == 6 ? "active-menu" : "")" href="@Url.Action("DanhSachKhoa", "QLK" )">Danh sách khoa</a>
+                            </li>
+                            <li>
+                                <a class="@Html.Raw(ViewBag.ac == 7 ? "active-menu" : "")" href="@Url.Action("ThemMoiKhoa", "QLK")">Thêm mới khoa</a>
+                            </li>
+                        </ul>
+
                     </li>
                     <li>
-                        <a href="chart.html"><i class="fa fa-bar-chart-o fa-3x"></i> Môn học</a>
+                        <a href="#" class="@Html.Raw(ViewBag.ac == 7 || ViewBag.ac == 8? "active-menu" : "")"><i class="fa fa-desktop fa-3x"></i>Môn Học<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li class="nav nav-second-level">
+                                <a class="@Html.Raw(ViewBag.ac == 7 ? "active-menu" : "")" href="@Url.Action("DanhSachMonHoc", "QLMH")">Danh sách môn học</a>
+                            </li>
+                            <li>
+                                <a class="@Html.Raw(ViewBag.ac == 8 ? "active-menu" : "")" href="@Url.Action("ThemMonHoc", "QLMH")">Thêm mới môn học</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="table.html"><i class="fa fa-table fa-3x"></i> Lớp</a>
+                        <a href="#" class="@Html.Raw(ViewBag.ac == 10 || ViewBag.ac == 11? "active-menu" : "")"><i class="fa fa-sitemap fa-3x"></i> Lớp<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="@Html.Raw(ViewBag.ac == 10 ? "active-menu" : "")" href="@Url.Action("DanhSachLop", "QLL" )">Danh sách lớp</a>
+                            </li>
+                            <li>
+                                <a class="@Html.Raw(ViewBag.ac == 11 ? "active-menu" : "")" href="@Url.Action("ThemMoiLop", "QLL")">Thêm mới lớp</a>
+                            </li>
+                        </ul>
+
                     </li>
                     <li>
                         <a href="form.html"><i class="fa fa-edit fa-3x"></i> Bảng điểm  </a>

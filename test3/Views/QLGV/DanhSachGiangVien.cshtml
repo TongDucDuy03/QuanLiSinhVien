@@ -5,12 +5,12 @@
 }
 
 <h2>Danh sách giảng viên</h2>
-<form action="/QLSV/Search" method="get">
+<form action="/QLGV/Search" method="get">
     <div class="form-group">
         <div style="display: flex">
             <input type="text" style="width:30%" name="searchMGV" class="form-control" placeholder="Nhập MGV cần tìm kiếm" /> &nbsp;
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-            <button class="btn btn-primary" style="margin-left: 600px;"><a href="~/Export/ExportgiangVien" class="export-link">Export</a></button>
+            @Html.ActionLink("Export", "ExportGiangVien", "Export", null, new { @class = "btn btn-primary", @style = "margin-left: 600px;" })
         </div>
     </div>
 </form>
@@ -44,8 +44,8 @@
                             <td>@giangVien.NgaySinhGV.ToString("dd/MM/yyyy")</td>
                             <td>@(giangVien.GioiTinh ? "Nam" : "Nữ")</td>
                             <td>@giangVien.MaKhoa</td>
-                            <td><a href="~/QLSV/Xoa?id=@giangVien.MGV">Xóa</a></td>
-                            <td><a href="~/QLSV/Suathongtin?id=@giangVien.MGV">Sửa</a></td>
+                            <td><a href="~/QLGV/Xoa?id=@giangVien.MGV">Xóa</a></td>
+                            <td><a href="~/QLGV/Suathongtin?id=@giangVien.MGV">Sửa</a></td>
                         </tr>
                     }
                 </tbody>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,13 +17,13 @@ namespace test3.Controllers
             List<GiangVien> danhSachGiangVien = db.GiangViens.ToList();
             return View(danhSachGiangVien);
         }
-        /*[HttpGet]
+        [HttpGet]
         public ActionResult Search(string searchMGV)
         {
             List<GiangVien> searchMgv = db.GiangViens.Where(s => s.MGV == searchMGV).ToList();
 
             return View("DanhSachGiangVien", searchMgv);
-        }*/
+        }
         [HttpGet]
         public ActionResult ThemMoiGiangVien()
         {
@@ -32,10 +33,96 @@ namespace test3.Controllers
         [HttpPost]
         public ActionResult ThemMoiGiangVien(GiangVien giangVien)
         {
+            if (string.IsNullOrEmpty(giangVien.GvUser))
+            {
+                ViewBag.GvUserError = "Yêu cầu nhập tài khoản giảng viên.";
+            }
+            if (string.IsNullOrEmpty(giangVien.GvPass))
+            {
+                ViewBag.GvPassError = "Yêu cầu nhập mật khẩu giảng viên.";
+            }
+            if (string.IsNullOrEmpty(giangVien.HoTenGV))
+            {
+                ViewBag.HoTenGVError = "Yêu cầu nhập họ tên giảng viên.";
+            }
+
+            if (giangVien.NgaySinhGV == null || giangVien.NgaySinhGV == DateTime.MinValue)
+            {
+                ModelState.Remove("NgaySinhGV"); // Xóa ModelState Error cho trường này
+                ViewBag.NgaySinhGVError = "Yêu cầu nhập ngày sinh giảng viên.";
+            }
+
+
+            // Kiểm tra trường "NgaySinhGV" và đảm bảo năm sinh sau 2006
+            // Kiểm tra trường "NgaySinhGV" và đảm bảo năm sinh sau 2006
+            if (giangVien.NgaySinhGV.Year > 2006)
+            {
+                ModelState.AddModelError("NgaySinhGV", "Chưa đủ 18 tuổi.");
+            }
+
+            // Kiểm tra trường "GioiTinh"
+            // Kiểm tra trường "GioiTinh"
+            if (giangVien.GioiTinh == null)
+            {
+                ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính giảng viên.");
+            }
+
+
+
+            if (string.IsNullOrEmpty(giangVien.MaKhoa))
+            {
+                ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa giảng viên.";
+            }
+
+            if (string.IsNullOrEmpty(giangVien.GvUser) || string.IsNullOrEmpty(giangVien.GvPass) || string.IsNullOrEmpty(giangVien.HoTenGV) ||
+                giangVien.NgaySinhGV == null || giangVien.GioiTinh == null || string.IsNullOrEmpty(giangVien.MaKhoa))
+            {
+                ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
+                return View(giangVien);
+            }
+
+            // Nếu dữ liệu hợp lệ, tiến hành thêm mới giảng viên
             QLSVEntities db = new QLSVEntities();
             db.GiangViens.Add(giangVien);
             db.SaveChanges();
             return RedirectToAction("DanhSachGiangVien");
+        }
+
+
+
+
+        public ActionResult Xoa(string id)
+        {
+            QLSVEntities db = new QLSVEntities();
+            var giangVien = db.GiangViens.Find(id);
+            db.GiangViens.Remove(giangVien);
+            db.SaveChanges();
+            return RedirectToAction("DanhSachGiangVien");
+        }
+        [HttpGet]
+        public ActionResult Suathongtin(string id)
+        {
+            QLSVEntities db = new QLSVEntities();
+            var giangVien = db.GiangViens.Find(id);
+            if (giangVien.GioiTinh)
+            {
+                ViewBag.NamChecked = true;
+                ViewBag.NuChecked = false;
+            }
+            else
+            {
+                ViewBag.NamChecked = false;
+                ViewBag.NuChecked = true;
+            }
+            ViewBag.KhoaCu = giangVien.MaKhoa;
+            return View(giangVien);
+        }
+        [HttpPost]
+        public ActionResult Suathongtin(GiangVien giangVien)
+        {
+            db.Entry(giangVien).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("DanhSachgiangVien");
         }
     }
 }
