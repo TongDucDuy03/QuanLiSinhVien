@@ -54,7 +54,6 @@ namespace test3.Controllers
         }
 
 
-
         [HttpGet]
         public ActionResult ThemMoiSinhVien()
         {
@@ -64,51 +63,67 @@ namespace test3.Controllers
         [HttpPost]
         public ActionResult ThemMoiSinhVien(SinhVien sinhVien)
         {
-            // Kiểm tra họ tên sinh viên
+            if (string.IsNullOrEmpty(sinhVien.SvUser))
+            {
+                ViewBag.SvUserError = "Yêu cầu nhập tài khoản sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.SvPass))
+            {
+                ViewBag.SvPassError = "Yêu cầu nhập mật khẩu sinh viên.";
+            }
             if (string.IsNullOrEmpty(sinhVien.HoTenSV))
             {
-                ModelState.AddModelError("HoTen", "Họ tên sinh viên là bắt buộc.");
-            }
-            else if (!Regex.IsMatch(sinhVien.HoTenSV, @"^[a-zA-Z\s]+$"))
-            {
-                ModelState.AddModelError("HoTen", "Họ tên sinh viên chỉ được chứa chữ cái và khoảng trắng.");
+                ViewBag.HoTenSVError = "Yêu cầu nhập họ tên sinh viên.";
             }
 
-            // Kiểm tra ngày sinh
-            if (sinhVien.NgaySinhSV >= DateTime.Now.Date)
+            if (sinhVien.NgaySinhSV == null || sinhVien.NgaySinhSV == DateTime.MinValue)
             {
-                ModelState.AddModelError("NgaySinh", "Ngày sinh phải nhỏ hơn ngày hiện tại.");
-            }
-            else
-            {
-                DateTime today = DateTime.Today;
-                int age = today.Year - sinhVien.NgaySinhSV.Year;
-                if (sinhVien.NgaySinhSV > today.AddYears(-age))
-                {
-                    age--;
-                }
-                if (age < 18)
-                {
-                    ModelState.AddModelError("NgaySinh", "Sinh viên phải đủ 18 tuổi.");
-                }
+                ModelState.Remove("NgaySinhSV"); // Xóa ModelState Error cho trường này
+                ViewBag.NgaySinhSVError = "Yêu cầu nhập ngày sinh sinh viên.";
             }
 
-            // Kiểm tra giới tính
+
+            // Kiểm tra trường "NgaySinhSV" và đảm bảo năm sinh sau 2006
+            // Kiểm tra trường "NgaySinhSV" và đảm bảo năm sinh sau 2006
+            if (sinhVien.NgaySinhSV.Year > 2006)
+            {
+                ModelState.AddModelError("NgaySinhSV", "Chưa đủ 18 tuổi.");
+            }
+
+            // Kiểm tra trường "GioiTinh"
+            // Kiểm tra trường "GioiTinh"
             if (sinhVien.GioiTinh == null)
             {
-                ModelState.AddModelError("GioiTinh", "Giới tính là bắt buộc.");
+                ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính sinh viên.");
             }
 
-            // Kiểm tra các điều kiện hợp lệ
-            if (ModelState.IsValid)
+
+
+            if (string.IsNullOrEmpty(sinhVien.MaKhoa))
             {
-                QLSVEntities db = new QLSVEntities();
-                db.SinhViens.Add(sinhVien);
-                db.SaveChanges();
-                return RedirectToAction("DanhSachSinhVien");
+                ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.MaLop))
+            {
+                ViewBag.MaLopError = "Yêu cầu chọn lớp sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.NoiSinh))
+            {
+                ViewBag.NoiSinhError = "Yêu cầu nhập nơi sinh sinh viên.";
             }
 
-            return View(sinhVien); // Trả về view với thông tin sinh viên và các thông báo lỗi
+            if (string.IsNullOrEmpty(sinhVien.SvUser) || string.IsNullOrEmpty(sinhVien.SvPass) || string.IsNullOrEmpty(sinhVien.HoTenSV) ||
+                sinhVien.NgaySinhSV == null || sinhVien.GioiTinh == null || string.IsNullOrEmpty(sinhVien.MaKhoa) || string.IsNullOrEmpty(sinhVien.MaLop) ||string.IsNullOrEmpty(sinhVien.NoiSinh) )
+            {
+                ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
+                return View(sinhVien);
+            }
+
+            // Nếu dữ liệu hợp lệ, tiến hành thêm mới giảng viên
+            QLSVEntities db = new QLSVEntities();
+            db.SinhViens.Add(sinhVien);
+            db.SaveChanges();
+            return RedirectToAction("DanhSachSinhVien");
         }
 
 
