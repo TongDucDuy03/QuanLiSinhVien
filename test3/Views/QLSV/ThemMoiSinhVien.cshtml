@@ -25,6 +25,10 @@
         <div class="col-md-3">
             @Html.EditorFor(model => model.SvUser, new { htmlAttributes = new { @class = "form-control", type = "email" } })
             @Html.ValidationMessageFor(model => model.SvUser, "", new { @class = "text-danger" })
+            @if (ViewBag.SvUserError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.SvUserError</p>
+            }
         </div>
     </div>
 
@@ -33,6 +37,10 @@
         <div class="col-md-3">
             @Html.EditorFor(model => model.SvPass, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.SvPass, "", new { @class = "text-danger" })
+            @if (ViewBag.SvPassError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.SvPassError</p>
+            }
         </div>
     </div>
 
@@ -41,6 +49,10 @@
         <div class="col-md-3">
             @Html.EditorFor(model => model.HoTenSV, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.HoTenSV, "", new { @class = "text-danger" })
+            @if (ViewBag.HoTenSVError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.HoTenSVError</p>
+            }
         </div>
     </div>
 
@@ -49,6 +61,10 @@
         <div class="col-md-3">
             @Html.EditorFor(model => model.NgaySinhSV, new { htmlAttributes = new { @class = "form-control", type = "date" } })
             @Html.ValidationMessageFor(model => model.NgaySinhSV, "", new { @class = "text-danger" })
+            @if (ViewBag.NgaySinhSVError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.NgaySinhSVError</p>
+            }
         </div>
     </div>
 
@@ -56,9 +72,14 @@
         @Html.LabelFor(model => model.GioiTinh, "Giới tính", new { @class = "control-label col-md-2" })
         <div class="col-md-3">
             <div>
-                <input type="radio" value="True" name="gioitinh">Nam
-                <input type="radio" value="False" name="gioitinh">Nữ
+                @Html.RadioButtonFor(model => model.GioiTinh, true, new { id = "Nam", name = "GioiTinh" }) Nam
+                @Html.RadioButtonFor(model => model.GioiTinh, false, new { id = "Nu", name = "GioiTinh" }) Nữ
             </div>
+            @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+            @if (ViewBag.GioiTinhError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.GioiTinhError</p>
+            }
         </div>
     </div>
     <div class="form-group">
@@ -71,8 +92,12 @@
 
             @Html.DropDownListFor(model => model.MaKhoa, new SelectList(dsKhoa, "MaKhoa", "TenKhoa"), "Chọn khoa...", new { @class = "form-control", id = "MaKhoa" })
 
-            
+
             @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
+            @if (ViewBag.MaKhoaError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.MaKhoaError</p>
+            }
         </div>
     </div>
 
@@ -86,6 +111,10 @@
             @Html.DropDownListFor(model => model.MaLop, new SelectList(dsLop, "MaLop", "MaLop"), "Chọn lớp...", new { @class = "form-control", id = "MaLop" })
 
             @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
+            @if (ViewBag.MaLopError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.MaLopError</p>
+            }
         </div>
     </div>
 
@@ -94,6 +123,10 @@
         <div class="col-md-3">
             @Html.EditorFor(model => model.NoiSinh, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.NoiSinh, "", new { @class = "text-danger" })
+            @if (ViewBag.NoiSinhError != null)
+            {
+                <p class="text-danger small-text">@ViewBag.NoiSinhError</p>
+            }
         </div>
     </div>
 
@@ -106,62 +139,13 @@
 </div>
 }
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Find the "Create" button by its class or other attributes
-        var createButton = document.querySelector('.btn.btn-default'); // Assuming this selector uniquely identifies your "Create" button
-
-        // Add a click event listener to the button
-        createButton.addEventListener('click', function (event) {
-            var usernameInput = document.getElementById('SvUser');
-            var passwordInput = document.getElementById('SvPass');
-            var fullNameInput = document.getElementById('HoTenSV');
-            var dateOfBirthInput = document.getElementById('NgaySinhSV');
-            var genderRadioButtons = document.querySelectorAll('input[name="gioitinh"]');
-            var departmentSelect = document.getElementById('MaKhoa');
-            var departmentSelect2 = document.getElementById('MaLop');
-            var addressInput = document.getElementById('NoiSinh')
-
-            var errorMessage = '';
-
-            if (usernameInput.value.trim() === '') {
-                errorMessage += 'Vui lòng nhập tài khoản.\n';
-            }
-            if (passwordInput.value.trim() === '') {
-                errorMessage += 'Vui lòng nhập mật khẩu.\n';
-            }
-            if (fullNameInput.value.trim() === '') {
-                errorMessage += 'Vui lòng nhập họ tên.\n';
-            }
-            var dateOfBirthValue = dateOfBirthInput.value.trim();
-            if (dateOfBirthValue === '') {
-                errorMessage += 'Vui lòng nhập ngày sinh.\n';
-            } else {
-                var dateOfBirth = new Date(dateOfBirthValue);
-                if (dateOfBirth.getFullYear() >= 2006) {
-                    errorMessage += 'Chưa đủ 18 tuổi.\n';
-                }
-            }
-            if (genderRadioButtons.length === 0 || ![...genderRadioButtons].some(radio => radio.checked)) {
-                errorMessage += 'Vui lòng chọn giới tính.\n';
-            }
-            if (departmentSelect.value === '') {
-                errorMessage += 'Vui lòng chọn mã khoa.\n';
-            }
-            if (departmentSelect2.value === '') {
-                errorMessage += 'Vui lòng chọn mã lớp.\n';
-            }
-            if (addressInput.value.trim() === '') {
-                errorMessage += 'Vui lòng nhập nơi sinh.\n';
-            }
-
-            if (errorMessage !== '') {
-                alert(errorMessage); // Display the combined error message
-                event.preventDefault(); // Prevent the form from submitting
-            }
-        });
-    });
-</script>
+<style>
+    .small-text {
+        font-size: 12px; /* Chọn kích thước phù hợp */
+        margin-top: -15px; /* Điều chỉnh khoảng cách từ trên xuống */
+        margin-bottom: -15px;
+    }
+</style>
 
 
 <div>
