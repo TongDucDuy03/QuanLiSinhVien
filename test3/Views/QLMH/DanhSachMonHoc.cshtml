@@ -10,7 +10,7 @@
         <div style="display: flex">
             <input type="text" style="width:30%" name="searchMSSV" class="form-control" placeholder="Nhập MSSV cần tìm kiếm" /> &nbsp;
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-            <button class="btn btn-primary" style="margin-left: 600px;"><a href="~/Export/ExportmonHoc" class="export-link">Export</a></button>
+            @Html.ActionLink("Export", "ExportMonHoc", "Export", null, new { @class = "btn btn-primary", @style = "margin-left: 600px;" })
         </div>
     </div>
 </form>
