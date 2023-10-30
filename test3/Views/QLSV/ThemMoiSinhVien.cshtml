@@ -99,7 +99,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Thêm" class="btn btn-default" />
+            <input type="button" value="Thêm" class="btn btn-default" id="btn-them" />
         </div>
     </div>
     
@@ -108,3 +108,27 @@
 <div>
     @Html.ActionLink("Back to List", "DanhSachSinhVien")
 </div>
+<script>
+    $(document).ready(function(){
+        $("#btn-them").click(function(){
+            var form = $('form')[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                data: formData,
+                contentType: "application/json; charset = utf-8",
+                url: window.location.origin + '/QLSV/ThemMoiSinhVien',
+                processData: false,
+                contentType: false,
+                Cache: false,
+                success: function (reponse) {
+                    alert("them moi thanh cong");
+                },
+                error: function (response) {
+                    alert("them that bai");
+                }
+            })
+        })
+    })
+</script>
