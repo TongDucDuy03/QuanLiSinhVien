@@ -19,8 +19,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GvUser, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.EditorFor(model => model.GvUser, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.GvUser, new { htmlAttributes = new { @class = "form-control", type = "email" } })
                 @Html.ValidationMessageFor(model => model.GvUser, "", new { @class = "text-danger" })
+                @if (ViewBag.GvUserError != null)
+                {
+                    <p class="text-danger small-text">@ViewBag.GvUserError</p>
+                }
             </div>
         </div>
 
@@ -29,6 +33,10 @@
             <div class="col-md-3">
                 @Html.EditorFor(model => model.GvPass, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GvPass, "", new { @class = "text-danger" })
+                @if (ViewBag.GvPassError != null)
+                {
+                    <p class="text-danger small-text">@ViewBag.GvPassError</p>
+                }
             </div>
         </div>
 
@@ -37,6 +45,10 @@
             <div class="col-md-3">
                 @Html.EditorFor(model => model.HoTenGV, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.HoTenGV, "", new { @class = "text-danger" })
+                @if (ViewBag.HoTenGVError != null)
+                {
+                    <p class="text-danger small-text">@ViewBag.HoTenGVError</p>
+                }
             </div>
         </div>
 
@@ -45,17 +57,21 @@
             <div class="col-md-3">
                 @Html.TextBoxFor(model => model.NgaySinhGV, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                 @Html.ValidationMessageFor(model => model.NgaySinhGV, "", new { @class = "text-danger" })
+                @if (ViewBag.NgaySinhGVError != null)
+                {
+                    <p class="text-danger small-text">@ViewBag.NgaySinhGVError</p>
+                }
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-2" })
-            
+            @Html.LabelFor(model => model.GioiTinh, "Giới tính", new { @class = "control-label col-md-2" })
             <div class="col-md-3">
                 <div>
-                    @Html.RadioButton("gioitinh", "True", (bool)ViewBag.NamChecked) Nam
-                    @Html.RadioButton("gioitinh", "False", (bool)ViewBag.NuChecked) Nữ
+                    @Html.RadioButtonFor(model => model.GioiTinh, true, new { id = "Nam", name = "GioiTinh" }) Nam
+                    @Html.RadioButtonFor(model => model.GioiTinh, false, new { id = "Nu", name = "GioiTinh" }) Nữ
                 </div>
+                @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+               
             </div>
         </div>
 
@@ -92,3 +108,10 @@
 </div>
 
 
+<style>
+    .small-text {
+        font-size: 12px; /* Chọn kích thước phù hợp */
+        margin-top: -15px; /* Điều chỉnh khoảng cách từ trên xuống */
+        margin-bottom: -15px;
+    }
+</style>
