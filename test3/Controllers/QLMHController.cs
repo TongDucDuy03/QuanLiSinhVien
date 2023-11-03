@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -35,6 +36,27 @@ namespace test3.Controllers
             db.SaveChanges();
             return RedirectToAction("DanhSachMonHoc");
         }
-        
+        public ActionResult Xoa(string maMon)
+        {
+            QLSVEntities db = new QLSVEntities();
+            var monhoc = db.MonHocs.Find(maMon);
+            db.MonHocs.Remove(monhoc);
+            db.SaveChanges();
+            return RedirectToAction("DanhSachMonHoc");
+        }
+        [HttpGet]
+        public ActionResult Suathongtinmonhoc(string maMon)
+        {
+            QLSVEntities db = new QLSVEntities();
+            var monhoc = db.MonHocs.Find(maMon);
+            return View(monhoc);
+        }
+        [HttpPost]
+        public ActionResult Suathongtinmonhoc(MonHoc monhoc)
+        {
+            db.Entry(monhoc).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("DanhSachMonHoc");
+        }
     }
 }
