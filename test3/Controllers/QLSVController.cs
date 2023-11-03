@@ -146,6 +146,14 @@ namespace test3.Controllers
             ViewBag.LopCu = sinhVien.MaLop;
             return View(sinhVien);
         }
+        public ActionResult Xoa(string id)
+        {
+            QLSVEntities db = new QLSVEntities();
+            var sinhVien = db.SinhViens.Find(id);
+            db.SinhViens.Remove(sinhVien);
+            db.SaveChanges();
+            return RedirectToAction("DanhSachSinhVien");
+        }
         [HttpPost]
         public ActionResult Suathongtin(SinhVien sinhVien)
         {
