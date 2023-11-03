@@ -16,7 +16,7 @@
     @Html.HiddenFor(model => model.MSSV)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.SvUser, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.SvUser,"Tài khoản", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-3">
             @Html.EditorFor(model => model.SvUser, new { htmlAttributes = new {@class = "form-control", style = "width: 300px;" } })
             @Html.ValidationMessageFor(model => model.SvUser, "", new { @class = "text-danger" })
@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.SvPass, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.SvPass,"Mật khẩu", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-3">
             @Html.EditorFor(model => model.SvPass, new { htmlAttributes = new {@class = "form-control", style = "width: 300px;" } })
             @Html.ValidationMessageFor(model => model.SvPass, "", new { @class = "text-danger" })
@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.HoTenSV, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.HoTenSV,"Họ tên", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-3">
             @Html.EditorFor(model => model.HoTenSV, new { htmlAttributes = new {@class = "form-control", style = "width: 300px;" } })
             @Html.ValidationMessageFor(model => model.HoTenSV, "", new { @class = "text-danger" })
@@ -40,7 +40,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.NgaySinhSV, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.NgaySinhSV,"Ngày sinh", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-3">
             @Html.TextBoxFor(model => model.NgaySinhSV, "{0:yyyy-MM-dd}", new { @class = "form-control", style = "width: 300px;", type = "date" })
             @Html.ValidationMessageFor(model => model.NgaySinhSV, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.GioiTinh,"Giới tính", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
                 <div>
                     @Html.RadioButton("gioitinh", "True", (bool)ViewBag.NamChecked) Nam
@@ -116,7 +116,3 @@
     </div>
 </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "DanhSachSinhVien")
-</div>
