@@ -67,8 +67,6 @@ namespace test3.Controllers
                 ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính giảng viên.");
             }
 
-
-
             if (string.IsNullOrEmpty(giangVien.MaKhoa))
             {
                 ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa giảng viên.";
@@ -87,9 +85,6 @@ namespace test3.Controllers
             db.SaveChanges();
             return RedirectToAction("DanhSachGiangVien");
         }
-
-
-
 
         public ActionResult Xoa(string id)
         {
@@ -171,5 +166,30 @@ namespace test3.Controllers
             db.SaveChanges();
             return RedirectToAction("DanhSachgiangVien");
         }
+        [HttpGet]
+        public ActionResult ThemMoiTinTuc()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ThemMoiTinTuc(TinTuc tintuc)
+        {
+            if (string.IsNullOrEmpty(tintuc.TieuDe))
+            {
+                ViewBag.TieuDeError = "Yêu cầu nhập tiêu đề.";
+                return View(tintuc);
+            }
+            if (string.IsNullOrEmpty(tintuc.NoiDung))
+            {
+                ViewBag.HoTenGVError = "Yêu cầu nhập nội dung.";
+                return View(tintuc);
+            }
+            QLSVEntities db = new QLSVEntities();
+            db.TinTucs.Add(tintuc);
+            db.SaveChanges();
+            return RedirectToAction("DashBoard","Home");
+        }
+
     }
 }
