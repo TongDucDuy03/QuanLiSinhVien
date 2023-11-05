@@ -17,17 +17,17 @@ namespace test3.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Lop()
         {
-            this.SinhViens = new HashSet<SinhVien>();
             this.BangDiems = new HashSet<BangDiem>();
+            this.SinhViens = new HashSet<SinhVien>();
         }
     
         public string MaLop { get; set; }
         public string MaKhoa { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BangDiem> BangDiems { get; set; }
         public virtual Khoa Khoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SinhVien> SinhViens { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BangDiem> BangDiems { get; set; }
     }
 }
