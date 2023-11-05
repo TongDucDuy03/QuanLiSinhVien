@@ -1,4 +1,6 @@
-﻿@model List<test3.Models.MonHoc>
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.MonHoc>
 @{
     ViewBag.Title = "DanhSachMonHoc";
     ViewBag.ac = 7;
@@ -25,20 +27,24 @@
                         <th>Mã khoa</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var monHoc in Model)
-                    {
-                        <tr>
-                            <td>@monHoc.MaMon</td>
-                            <td>@monHoc.TenMon</td>
-                            <td>@monHoc.MaKhoa</td>
-                            <td><a href="~/QLMH/Xoa?id=@monHoc.MaMon">Xóa</a></td>
-                            <td><a href="~/QLMH/Suathongtinmonhoc?id=@monHoc.MaMon">Sửa</a></td>
-                        </tr>
-                    }
-                </tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    <tbody>
+                        @foreach (var monHoc in Model)
+                        {
+                            <tr>
+                                <td>@monHoc.MaMon</td>
+                                <td>@monHoc.TenMon</td>
+                                <td>@monHoc.MaKhoa</td>
+                                <td><a href="~/QLMH/Xoa?id=@monHoc.MaMon">Xóa</a></td>
+                                <td><a href="~/QLMH/Suathongtinmonhoc?id=@monHoc.MaMon">Sửa</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                }
             </table>
         </div>
-
+        @Html.PagedListPager(Model, page => Url.Action("DanhSachMonHoc", new { page, pageSize = ViewBag.PageSize }))
     </div>
 </div>

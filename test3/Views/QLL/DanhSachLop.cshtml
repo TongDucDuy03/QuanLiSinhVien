@@ -1,4 +1,6 @@
-﻿@model List<test3.Models.Lop>
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.Lop>
 @{
     ViewBag.ac = 10;
     ViewBag.Title = "DanhSachLop";
@@ -29,19 +31,22 @@
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var lop in Model)
-                    {
-                        <tr>
-                            <td>@lop.MaLop</td>
-                            <td>@lop.MaKhoa</td>
-                            <td><a href="~/QLL/Xoa?maLop=@lop.MaLop">Xóa</a></td>
-                            <td><a href="~/QLL/Suathongtin?maLop=@lop.MaLop">Sửa</a></td>
-                        </tr>
-                    }
-                </tbody>
+                @if (Model != null && Model.Any())
+                {
+                    <tbody>
+                        @foreach (var lop in Model)
+                        {
+                            <tr>
+                                <td>@lop.MaLop</td>
+                                <td>@lop.MaKhoa</td>
+                                <td><a href="~/QLL/Xoa?maLop=@lop.MaLop">Xóa</a></td>
+                                <td><a href="~/QLL/Suathongtin?maLop=@lop.MaLop">Sửa</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                }
             </table>
         </div>
-
+        @Html.PagedListPager(Model, page => Url.Action("DanhSachLop", new { page, pageSize = ViewBag.PageSize }))
     </div>
 </div>

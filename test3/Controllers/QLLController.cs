@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,10 +13,18 @@ namespace test3.Controllers
     {
         // GET: QLL
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachLop()
+        public ActionResult DanhSachLop(int? page, int? pageSize)
         {
-            List<Lop> danhSachLop = db.Lops.ToList();
-            return View(danhSachLop);
+            if (page == null)
+            {
+                page = 1;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+            var lop = db.Lops.ToList();
+            return View(lop.ToPagedList((int)page, (int)pageSize));
         }
         [HttpGet]
         public ActionResult ThemMoiLop()

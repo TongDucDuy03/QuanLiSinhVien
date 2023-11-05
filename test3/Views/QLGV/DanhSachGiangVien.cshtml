@@ -1,4 +1,6 @@
-﻿@model List<test3.Models.GiangVien>
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.GiangVien>
 @{
     ViewBag.Title = "DanhSachGiangVien";
     ViewBag.ac = 4;
@@ -21,9 +23,6 @@
                 <thead>
                     <tr>
                         <th>MGV</th>
-                        @*
-                            <th>SvUser</th>
-                            <th>SvPass</th>*@
                         <th>Họ tên</th>
                         <th>Ngày sinh</th>
                         <th>Giới tính</th>
@@ -32,25 +31,25 @@
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var giangVien in Model)
-                    {
-                        <tr>
-                            <td>@giangVien.MGV</td>
-                            @*
-                                <td>@giangVien.SvUser</td>
-                                <td>@giangVien.SvPass</td>*@
-                            <td>@giangVien.HoTenGV</td>
-                            <td>@giangVien.NgaySinhGV.ToString("dd/MM/yyyy")</td>
-                            <td>@(giangVien.GioiTinh ? "Nam" : "Nữ")</td>
-                            <td>@giangVien.MaKhoa</td>
-                            <td><a href="~/QLGV/Xoa?id=@giangVien.MGV">Xóa</a></td>
-                            <td><a href="~/QLGV/Suathongtin?id=@giangVien.MGV">Sửa</a></td>
-                        </tr>
-                    }
-                </tbody>
+                @if (Model != null && Model.Any())
+                {
+                    <tbody>
+                        @foreach (var giangVien in Model)
+                        {
+                            <tr>
+                                <td>@giangVien.MGV</td>
+                                <td>@giangVien.HoTenGV</td>
+                                <td>@giangVien.NgaySinhGV.ToString("dd/MM/yyyy")</td>
+                                <td>@(giangVien.GioiTinh ? "Nam" : "Nữ")</td>
+                                <td>@giangVien.MaKhoa</td>
+                                <td><a href="~/QLGV/Xoa?id=@giangVien.MGV">Xóa</a></td>
+                                <td><a href="~/QLGV/Suathongtin?id=@giangVien.MGV">Sửa</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                }
             </table>
         </div>
-
+        @Html.PagedListPager(Model, page => Url.Action("DanhSachGiangVien", new { page, pageSize = ViewBag.PageSize }))
     </div>
 </div>
