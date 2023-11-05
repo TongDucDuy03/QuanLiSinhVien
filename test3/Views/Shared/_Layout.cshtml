@@ -32,9 +32,9 @@
                     </li>
                     <li>
                         <a href="#" class="@Html.Raw(ViewBag.ac == 2 || ViewBag.ac == 3? "active-menu" : "")"><i class="fa fa-sitemap fa-3x"></i> Sinh Viên<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" >
+                        <ul class="nav nav-second-level">
                             <li>
-                                <a class="@Html.Raw(ViewBag.ac == 2 ? "active-menu" : "")" href="@Url.Action("DanhSachSinhVien", "QLSV" )" >Danh sách sinh viên</a>
+                                <a class="@Html.Raw(ViewBag.ac == 2 ? "active-menu" : "")" href="@Url.Action("DanhSachSinhVien", "QLSV" )">Danh sách sinh viên</a>
                             </li>
                             <li>
                                 <a class="@Html.Raw(ViewBag.ac == 3 ? "active-menu" : "")" href="@Url.Action("ThemMoiSinhVien", "QLSV")">Thêm mới sinh viên</a>
@@ -90,17 +90,17 @@
                         </ul>
 
                     </li>
+
                     <li>
-                        <a href="#" ><i class="fa fa-sitemap fa-3x"></i> Điểm<span class="fa arrow"></span></a>
+                        <a href="#" class="@Html.Raw(ViewBag.ac == 13 || ViewBag.ac == 14? "active-menu" : "")"><i class="fa fa-sitemap fa-3x"></i> Điểm<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a  href="@Url.Action("DanhSachBangDiem", "QLD" )">Danh sách điểm</a>
+                                <a class="@Html.Raw(ViewBag.ac == 13 ? "active-menu" : "")" href="@Url.Action("DanhSachBangDiem", "QLD" )">Danh sách điểm</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("ThemBangDiem", "QLD")">Nhập điểm</a>
+                                <a class="@Html.Raw(ViewBag.ac == 14 ? "active-menu" : "")" href="@Url.Action("ThemBangDiem", "QLD")">Nhập điểm</a>
                             </li>
                         </ul>
-                    </li>
                 </ul>
 
             </div>
@@ -133,8 +133,3 @@
 
 </body>
 </html>
-
-
-
-
-

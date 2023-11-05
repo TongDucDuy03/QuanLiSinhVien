@@ -1,6 +1,10 @@
-﻿@model List<test3.Models.BangDiem>
+﻿
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.BangDiem>
 @{
-    ViewBag.Title = "DanhSachBangDiem";
+    ViewBag.Title = "DanhSachDiem";
+    ViewBag.ac = 13;
 }
 
 <h2>Danh sách điểm</h2>
@@ -36,7 +40,7 @@
                             <td>@BangDiem.MaLop</td>
                             <td>@BangDiem.Diem</td>
                             <td><a href="~/QLD/Xoa?id=@BangDiem.MSSV">Xóa</a></td>
-                            <td><a href="~/QLD/Suathongtin?id=@BangDiem.MSSV">Sửa</a></td>
+                            <td><a href="~/QLD/SuathongtinBangDiem?id=@BangDiem.MSSV">Sửa</a></td>
                         </tr>
                     }
                 </tbody>

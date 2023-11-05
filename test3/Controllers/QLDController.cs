@@ -13,7 +13,7 @@ namespace test3.Controllers
     {
         // GET: QLD
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachDiem(int? page, int? pageSize)
+        public ActionResult DanhSachBangDiem(int? page, int? pageSize)
         {
             if (page == null)
             {
