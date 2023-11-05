@@ -1,4 +1,7 @@
-﻿@model List<test3.Models.SinhVien>
+﻿@*@model List<test3.Models.SinhVien>*@
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.SinhVien>
 @{
     ViewBag.ac = 2;
 }
@@ -8,7 +11,7 @@
 <form action="/QLSV/Search" method="get">
     <div class="form-group">
         <div style="display: flex">
-            <select name="searchField" class="form-control" style="width: 55%;">
+            <select name="searchField" class="form-control" style="width: 30%;">
                 <option value="MSSV">MSSV</option>
                 <option value="MaLop">Mã Lớp</option>
                 <option value="MaKhoa">Mã Khoa</option>
@@ -42,28 +45,30 @@
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var sinhVien in Model)
-                    {
-                        <tr>
-                            <td>@sinhVien.MSSV</td>
-                            @*
-                                <td>@sinhVien.SvUser</td>
-                                <td>@sinhVien.SvPass</td>*@
-                            <td>@sinhVien.HoTenSV</td>
-                            <td>@sinhVien.NgaySinhSV.ToString("dd/MM/yyyy")</td>
-                            <td>@(sinhVien.GioiTinh ? "Nam" : "Nữ")</td>
-                            <td>@sinhVien.MaLop</td>
-                            <td>@sinhVien.NoiSinh</td>
-                            <td>@sinhVien.MaKhoa</td>
-                            <td><a href="~/QLSV/Xoa?id=@sinhVien.MSSV">Xóa</a></td>
-                            <td><a href="~/QLSV/Suathongtin?id=@sinhVien.MSSV">Sửa</a></td>
-                        </tr>
-                    }
-                </tbody>
+                @if (Model != null && Model.Any())
+                {
+                    <tbody>
+                        @foreach (var sinhVien in Model)
+                        {
+                            <tr>
+                                <td>@sinhVien.MSSV</td>
+                                <td>@sinhVien.HoTenSV</td>
+                                <td>@sinhVien.NgaySinhSV.ToString("dd/MM/yyyy")</td>
+                                <td>@(sinhVien.GioiTinh ? "Nam" : "Nữ")</td>
+                                <td>@sinhVien.MaLop</td>
+                                <td>@sinhVien.NoiSinh</td>
+                                <td>@sinhVien.MaKhoa</td>
+                                <td><a href="~/QLSV/Xoa?id=@sinhVien.MSSV">Xóa</a></td>
+                                <td><a href="~/QLSV/Suathongtin?id=@sinhVien.MSSV">Sửa</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                }
+
             </table>
         </div>
-
+        @Html.PagedListPager(Model, page => Url.Action("DanhSachSinhVien", new { page, pageSize = ViewBag.PageSize }))
     </div>
 </div>
 

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using test3.Models;
+using PagedList;
 
 namespace test3.Controllers
 {
@@ -14,10 +15,18 @@ namespace test3.Controllers
     {
         // GET: QLSV
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachSinhVien()
+        public ActionResult DanhSachSinhVien(int? page, int? pageSize)
         {
-            List<SinhVien> danhSachSinhVien = db.SinhViens.ToList();
-            return View(danhSachSinhVien);
+            if (page == null)
+            {
+                page = 1;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+            var sinhVien = db.SinhViens.ToList();
+            return View(sinhVien.ToPagedList((int)page, (int)pageSize));
         }
         [HttpGet]
         public ActionResult Search(string searchField, string searchValue)
@@ -52,7 +61,6 @@ namespace test3.Controllers
 
             return View("DanhSachSinhVien", searchResults);
         }
-
 
         [HttpGet]
         public ActionResult ThemMoiSinhVien()
@@ -113,7 +121,7 @@ namespace test3.Controllers
             }
 
             if (string.IsNullOrEmpty(sinhVien.SvUser) || string.IsNullOrEmpty(sinhVien.SvPass) || string.IsNullOrEmpty(sinhVien.HoTenSV) ||
-                sinhVien.NgaySinhSV == null || sinhVien.GioiTinh == null || string.IsNullOrEmpty(sinhVien.MaKhoa) || string.IsNullOrEmpty(sinhVien.MaLop) ||string.IsNullOrEmpty(sinhVien.NoiSinh) )
+                sinhVien.NgaySinhSV == null || sinhVien.GioiTinh == null || string.IsNullOrEmpty(sinhVien.MaKhoa) || string.IsNullOrEmpty(sinhVien.MaLop) || string.IsNullOrEmpty(sinhVien.NoiSinh))
             {
                 ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
                 return View(sinhVien);
@@ -137,7 +145,7 @@ namespace test3.Controllers
                 ViewBag.NamChecked = true;
                 ViewBag.NuChecked = false;
             }
-            else 
+            else
             {
                 ViewBag.NamChecked = false;
                 ViewBag.NuChecked = true;
@@ -161,6 +169,6 @@ namespace test3.Controllers
             db.SaveChanges();//Entity Framework sẽ tạo truy vấn SQL UPDATE để cập nhật dữ liệu của sinhVien trong cơ sở dữ liệu.
             return RedirectToAction("DanhSachSinhVien");
         }
-       
+
     }
 }

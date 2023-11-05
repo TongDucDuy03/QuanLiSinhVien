@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
@@ -13,10 +14,18 @@ namespace test3.Controllers
     {
         // GET: QLGV
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachGiangVien()
+        public ActionResult DanhSachGiangVien(int? page, int? pageSize)
         {
-            List<GiangVien> danhSachGiangVien = db.GiangViens.ToList();
-            return View(danhSachGiangVien);
+            if (page == null)
+            {
+                page = 1;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+            var giangVien = db.GiangViens.ToList();
+            return View(giangVien.ToPagedList((int)page, (int)pageSize));
         }
         [HttpGet]
         public ActionResult Search(string searchMGV)

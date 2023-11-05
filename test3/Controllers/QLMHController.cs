@@ -1,21 +1,29 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using test3.Models;
-
 namespace test3.Controllers
 {
     public class QLMHController : Controller
     {
         // GET: QLMH
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachMonHoc()
+        public ActionResult DanhSachMonHoc(int? page, int? pageSize)
         {
-            List<MonHoc> danhSachMonHoc = db.MonHocs.ToList();
-            return View(danhSachMonHoc);
+            if (page == null)
+            {
+                page = 1;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+            var monHoc = db.MonHocs.ToList();
+            return View(monHoc.ToPagedList((int)page, (int)pageSize));
         }
         [HttpGet]
         public ActionResult Search(string searchMaMon)

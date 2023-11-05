@@ -1,4 +1,7 @@
-﻿@model List<test3.Models.Khoa>
+﻿@*@model List<test3.Models.Khoa>*@
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<test3.Models.Khoa>
 @{
     ViewBag.ac = 6;
 }
@@ -16,24 +19,26 @@
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var khoa in Model)
-                    {
-                        <tr>
-                            <td>@khoa.MaKhoa</td>
-                            <td>@khoa.TenKhoa</td>
-                            <td><a href="~/QLK/Xoa?maKhoa=@khoa.MaKhoa">Xóa</a></td>
-                            <td><a href="~/QLK/Suathongtin?maKhoa=@khoa.MaKhoa">Sửa</a></td>
-                        </tr>
+                @if (Model != null && Model.Any()) { 
+                    <tbody>
+                        @foreach (var khoa in Model)
+                        {
+                            <tr>
+                                <td>@khoa.MaKhoa</td>
+                                <td>@khoa.TenKhoa</td>
+                                <td><a href="~/QLK/Xoa?maKhoa=@khoa.MaKhoa">Xóa</a></td>
+                                <td><a href="~/QLK/Suathongtin?maKhoa=@khoa.MaKhoa">Sửa</a></td>
+                            </tr>
+                        }
+                    </tbody>
                     }
-                </tbody>
             </table>
         </div>
-
+        @Html.PagedListPager(Model, page => Url.Action("DanhSachKhoa", new { page, pageSize = ViewBag.PageSize }))
     </div>
 
     <div style="display: flex">
-       
+
         @Html.ActionLink("Export", "ExportKhoa", "Export", null, new { @class = "btn btn-primary", @style = "margin-left: 900px;" })
     </div>
 </div>

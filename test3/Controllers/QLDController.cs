@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,10 +13,18 @@ namespace test3.Controllers
     {
         // GET: QLD
         QLSVEntities db = new QLSVEntities();
-        public ActionResult DanhSachBangDiem()
+        public ActionResult DanhSachDiem(int? page, int? pageSize)
         {
-            List<BangDiem> danhSachBangDiem = db.BangDiems.ToList();
-            return View(danhSachBangDiem);
+            if (page == null)
+            {
+                page = 1;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+            var diem = db.BangDiems.ToList();
+            return View(diem.ToPagedList((int)page, (int)pageSize));
         }
         [HttpGet]
         public ActionResult Search(string searchMSSV, string searchMaMon,string searchMaLop)
