@@ -20,6 +20,10 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.MaMon, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.MaMon, "", new { @class = "text-danger" })
+            @if (ViewBag.MaMonError != null)
+            {
+                <p class="text-danger small-text" style="font-size: 12px;">@ViewBag.MaMonError</p>
+            }
         </div>
     </div>
 
@@ -28,6 +32,10 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.TenMon, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.TenMon, "", new { @class = "text-danger" })
+            @if (ViewBag.TenMonError != null)
+            {
+                <p class="text-danger small-text" style="font-size: 12px;">@ViewBag.TenMonError</p>
+            }
         </div>
     </div>
 
@@ -38,11 +46,12 @@
                 test3.Models.QLSVEntities db = new test3.Models.QLSVEntities();
                 List<test3.Models.Khoa> dsKhoa = db.Khoas.ToList();
             }
-
             @Html.DropDownListFor(model => model.MaKhoa, new SelectList(dsKhoa, "MaKhoa", "TenKhoa"), "Chọn khoa...", new { @class = "form-control", id = "MaKhoa" })
-
-
             @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
+            @if (ViewBag.MaKhoaError != null)
+            {
+                <p class="text-danger small-text" style="font-size: 12px;">@ViewBag.MaKhoaError</p>
+            }
         </div>
     </div>
 

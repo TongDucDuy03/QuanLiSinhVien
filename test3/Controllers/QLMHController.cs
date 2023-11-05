@@ -31,32 +31,78 @@ namespace test3.Controllers
         [HttpPost]
         public ActionResult ThemMonHoc(MonHoc monHoc)
         {
-            QLSVEntities db = new QLSVEntities();
-            db.MonHocs.Add(monHoc);
-            db.SaveChanges();
-            return RedirectToAction("DanhSachMonHoc");
+            if (string.IsNullOrEmpty(monHoc.MaMon))
+            {
+                ViewBag.MaMonError = "Yêu cầu nhập Mã Môn.";
+            }
+            if (string.IsNullOrEmpty(monHoc.TenMon))
+            {
+                ViewBag.TenMonError = "Yêu cầu nhập Tên Môn.";
+            }
+            if (string.IsNullOrEmpty(monHoc.MaKhoa))
+            {
+                ViewBag.MaKhoaError = "Yêu cầu chọn Mã Khoa.";
+            }
+
+            if (!string.IsNullOrEmpty(monHoc.MaMon) && !string.IsNullOrEmpty(monHoc.TenMon) && !string.IsNullOrEmpty(monHoc.MaKhoa))
+            {
+                QLSVEntities db = new QLSVEntities();
+                db.MonHocs.Add(monHoc);
+                db.SaveChanges();
+                return RedirectToAction("DanhSachMonHoc");
+            }
+
+            return View(monHoc);
         }
-        public ActionResult Xoa(string maMon)
+
+
+
+
+
+
+        public ActionResult Xoa(string id)
         {
             QLSVEntities db = new QLSVEntities();
-            var monhoc = db.MonHocs.Find(maMon);
-            db.MonHocs.Remove(monhoc);
+            var monHoc = db.MonHocs.Find(id);
+            db.MonHocs.Remove(monHoc);
             db.SaveChanges();
             return RedirectToAction("DanhSachMonHoc");
         }
+
         [HttpGet]
-        public ActionResult Suathongtinmonhoc(string maMon)
+        public ActionResult Suathongtinmonhoc(string id)
         {
             QLSVEntities db = new QLSVEntities();
-            var monhoc = db.MonHocs.Find(maMon);
+            var monhoc = db.MonHocs.Find(id);
             return View(monhoc);
         }
+
         [HttpPost]
         public ActionResult Suathongtinmonhoc(MonHoc monhoc)
         {
-            db.Entry(monhoc).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("DanhSachMonHoc");
+            if (string.IsNullOrEmpty(monhoc.MaMon))
+            {
+                ViewBag.MaMonError = "Yêu cầu nhập Mã Môn.";
+            }
+            if (string.IsNullOrEmpty(monhoc.TenMon))
+            {
+                ViewBag.TenMonError = "Yêu cầu nhập Tên Môn.";
+            }
+            if (string.IsNullOrEmpty(monhoc.MaKhoa))
+            {
+                ViewBag.MaKhoaError = "Yêu cầu chọn Mã Khoa.";
+            }
+
+            if (!string.IsNullOrEmpty(monhoc.MaMon) && !string.IsNullOrEmpty(monhoc.TenMon) && !string.IsNullOrEmpty(monhoc.MaKhoa))
+            {
+                QLSVEntities db = new QLSVEntities();
+                db.Entry(monhoc).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DanhSachMonHoc");
+            }
+
+            return View(monhoc);
         }
+
     }
 }
