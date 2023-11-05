@@ -20,6 +20,7 @@
         <AssociationConnector Association="QLSVModel.FK_MonHoc_Khoa" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVModel.FK_SinhVien_MaKhoa" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVModel.FK_SinhVien_Lop" ManuallyRouted="false" />
+        <AssociationConnector Association="QLSVModel.FK_BangDiem_MaLop" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

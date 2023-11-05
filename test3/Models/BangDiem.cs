@@ -16,9 +16,11 @@ namespace test3.Models
     {
         public string MSSV { get; set; }
         public string MaMon { get; set; }
-        public double Diem { get; set; }
+        public Nullable<double> Diem { get; set; }
+        public string MaLop { get; set; }
     
         public virtual MonHoc MonHoc { get; set; }
         public virtual SinhVien SinhVien { get; set; }
+        public virtual Lop Lop { get; set; }
     }
 }

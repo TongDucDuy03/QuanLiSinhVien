@@ -18,6 +18,7 @@ namespace test3.Models
         public Lop()
         {
             this.SinhViens = new HashSet<SinhVien>();
+            this.BangDiems = new HashSet<BangDiem>();
         }
     
         public string MaLop { get; set; }
@@ -26,5 +27,7 @@ namespace test3.Models
         public virtual Khoa Khoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SinhVien> SinhViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BangDiem> BangDiems { get; set; }
     }
 }

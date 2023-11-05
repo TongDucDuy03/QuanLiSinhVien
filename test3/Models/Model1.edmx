@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QLSVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLSVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ADMIN">
           <Key>
             <PropertyRef Name="UserName" />
@@ -19,7 +19,8 @@
           </Key>
           <Property Name="MSSV" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="MaMon" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Diem" Type="float" Nullable="false" />
+          <Property Name="Diem" Type="float" />
+          <Property Name="MaLop" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="GiangVien">
           <Key>
@@ -78,6 +79,18 @@
           <Property Name="NoiDung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Ngay" Type="date" />
         </EntityType>
+        <Association Name="FK_BangDiem_MaLop">
+          <End Role="Lop" Type="Self.Lop" Multiplicity="1" />
+          <End Role="BangDiem" Type="Self.BangDiem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lop">
+              <PropertyRef Name="MaLop" />
+            </Principal>
+            <Dependent Role="BangDiem">
+              <PropertyRef Name="MaLop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BangDiem_MaMon">
           <End Role="MonHoc" Type="Self.MonHoc" Multiplicity="1" />
           <End Role="BangDiem" Type="Self.BangDiem" Multiplicity="*" />
@@ -171,6 +184,10 @@
           <EntitySet Name="MonHoc" EntityType="Self.MonHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SinhVien" EntityType="Self.SinhVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TinTuc" EntityType="Self.TinTuc" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BangDiem_MaLop" Association="Self.FK_BangDiem_MaLop">
+            <End Role="Lop" EntitySet="Lop" />
+            <End Role="BangDiem" EntitySet="BangDiem" />
+          </AssociationSet>
           <AssociationSet Name="FK_BangDiem_MaMon" Association="Self.FK_BangDiem_MaMon">
             <End Role="MonHoc" EntitySet="MonHoc" />
             <End Role="BangDiem" EntitySet="BangDiem" />
@@ -200,8 +217,7 @@
             <End Role="SinhVien" EntitySet="SinhVien" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLSVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -219,9 +235,11 @@
           </Key>
           <Property Name="MSSV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="MaMon" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Diem" Type="Double" Nullable="false" />
+          <Property Name="Diem" Type="Double" />
           <NavigationProperty Name="MonHoc" Relationship="Self.FK_BangDiem_MaMon" FromRole="BangDiem" ToRole="MonHoc" />
           <NavigationProperty Name="SinhVien" Relationship="Self.FK_BangDiem_MSSV" FromRole="BangDiem" ToRole="SinhVien" />
+          <Property Name="MaLop" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Lop" Relationship="QLSVModel.FK_BangDiem_MaLop" FromRole="BangDiem" ToRole="Lop" />
         </EntityType>
         <EntityType Name="GiangVien">
           <Key>
@@ -255,6 +273,7 @@
           <Property Name="MaKhoa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Khoa" Relationship="Self.FK_Lop_Khoa" FromRole="Lop" ToRole="Khoa" />
           <NavigationProperty Name="SinhViens" Relationship="Self.FK_SinhVien_Lop" FromRole="Lop" ToRole="SinhVien" />
+          <NavigationProperty Name="BangDiems" Relationship="QLSVModel.FK_BangDiem_MaLop" FromRole="Lop" ToRole="BangDiem" />
         </EntityType>
         <EntityType Name="MonHoc">
           <Key>
@@ -413,7 +432,23 @@
             <End Role="Lop" EntitySet="Lops" />
             <End Role="SinhVien" EntitySet="SinhViens" />
           </AssociationSet>
+          <AssociationSet Name="FK_BangDiem_MaLop" Association="QLSVModel.FK_BangDiem_MaLop">
+            <End Role="Lop" EntitySet="Lops" />
+            <End Role="BangDiem" EntitySet="BangDiems" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_BangDiem_MaLop">
+          <End Type="QLSVModel.Lop" Role="Lop" Multiplicity="1" />
+          <End Type="QLSVModel.BangDiem" Role="BangDiem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lop">
+              <PropertyRef Name="MaLop" />
+            </Principal>
+            <Dependent Role="BangDiem">
+              <PropertyRef Name="MaLop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -431,6 +466,7 @@
           <EntitySetMapping Name="BangDiems">
             <EntityTypeMapping TypeName="QLSVModel.BangDiem">
               <MappingFragment StoreEntitySet="BangDiem">
+                <ScalarProperty Name="MaLop" ColumnName="MaLop" />
                 <ScalarProperty Name="MSSV" ColumnName="MSSV" />
                 <ScalarProperty Name="MaMon" ColumnName="MaMon" />
                 <ScalarProperty Name="Diem" ColumnName="Diem" />
