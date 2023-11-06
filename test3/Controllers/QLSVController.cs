@@ -47,7 +47,6 @@ namespace test3.Controllers
                     searchResults = db.SinhViens.Where(s => s.MaKhoa.ToLower().StartsWith(searchValue)).ToList();
                     break;
                 case "GioiTinh":
-                    // Trường "GioiTinh" là kiểu bit (1 hoặc 0)
                     bool searchValueAsBool = (searchValue == "1" || searchValue == "true");
                     searchResults = db.SinhViens.Where(s => s.GioiTinh == searchValueAsBool).ToList();
                     break;
@@ -55,7 +54,6 @@ namespace test3.Controllers
                     searchResults = db.SinhViens.Where(s => s.NoiSinh.ToLower().StartsWith(searchValue)).ToList();
                     break;
                 default:
-                    // Xử lý mặc định nếu không có trường nào được chọn
                     break;
             }
 
@@ -86,20 +84,13 @@ namespace test3.Controllers
 
             if (sinhVien.NgaySinhSV == null || sinhVien.NgaySinhSV == DateTime.MinValue)
             {
-                ModelState.Remove("NgaySinhSV"); // Xóa ModelState Error cho trường này
+                ModelState.Remove("NgaySinhSV");
                 ViewBag.NgaySinhSVError = "Yêu cầu nhập ngày sinh sinh viên.";
             }
-
-
-            // Kiểm tra trường "NgaySinhSV" và đảm bảo năm sinh sau 2006
-            // Kiểm tra trường "NgaySinhSV" và đảm bảo năm sinh sau 2006
             if (sinhVien.NgaySinhSV.Year > 2006)
             {
                 ModelState.AddModelError("NgaySinhSV", "Chưa đủ 18 tuổi.");
             }
-
-            // Kiểm tra trường "GioiTinh"
-            // Kiểm tra trường "GioiTinh"
             if (sinhVien.GioiTinh == null)
             {
                 ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính sinh viên.");
