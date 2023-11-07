@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using test3.Models;
 using PagedList;
+using System.Data.Entity.Validation;
 
 namespace test3.Controllers
 {
@@ -153,12 +154,77 @@ namespace test3.Controllers
             db.SaveChanges();
             return RedirectToAction("DanhSachSinhVien");
         }
+       
         [HttpPost]
         public ActionResult Suathongtin(SinhVien sinhVien)
         {
-            db.Entry(sinhVien).State = EntityState.Modified;//Entity Framework biết rằng đối tượng sinhVien đã bị thay đổi và cần được cập nhật.
-            db.SaveChanges();//Entity Framework sẽ tạo truy vấn SQL UPDATE để cập nhật dữ liệu của sinhVien trong cơ sở dữ liệu.
-            return RedirectToAction("DanhSachSinhVien");
+            if (string.IsNullOrEmpty(sinhVien.SvUser))
+            {
+                ViewBag.SvUserError = "Yêu cầu nhập tài khoản sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.SvPass))
+            {
+                ViewBag.SvPassError = "Yêu cầu nhập mật khẩu sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.HoTenSV))
+            {
+                ViewBag.HoTenSVError = "Yêu cầu nhập họ tên sinh viên.";
+            }
+
+            if (string.IsNullOrEmpty(sinhVien.NoiSinh))
+            {
+                ViewBag.NoiSinhError = "Yêu cầu nhập nơi sinh sinh viên.";
+            }
+
+            if (sinhVien.NgaySinhSV == null )
+            {
+                ModelState.Remove("NgaySinhSV");
+                ViewBag.NgaySinhSVError = "Yêu cầu nhập ngày sinh sinh viên.";
+            }
+            else if (sinhVien.NgaySinhSV.Year > 2006)
+            {
+                ModelState.AddModelError("NgaySinhSV", "Chưa đủ 18 tuổi.");
+            }
+
+            // Kiểm tra trường "GioiTinh"
+            if (sinhVien.GioiTinh == null)
+            {
+                ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính sinh viên.");
+            }
+
+            if (string.IsNullOrEmpty(sinhVien.MaKhoa))
+            {
+                ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa sinh viên.";
+            }
+            if (string.IsNullOrEmpty(sinhVien.MaLop))
+            {
+                ViewBag.MaLopError = "Yêu cầu chọn mã lớp sinh viên.";
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    QLSVEntities db = new QLSVEntities();
+                    db.Entry(sinhVien).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("DanhSachSinhVien");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            // In lỗi kiểm tra cụ thể
+                            Console.WriteLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+
+            ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
+            return View(sinhVien);
         }
 
     }
