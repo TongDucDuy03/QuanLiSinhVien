@@ -39,7 +39,6 @@ namespace test3.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult ThemMoiGiangVien(GiangVien giangVien)
         {
@@ -56,20 +55,58 @@ namespace test3.Controllers
                 ViewBag.HoTenGVError = "Yêu cầu nhập họ tên giảng viên.";
             }
 
+            if (string.IsNullOrEmpty(giangVien.MGV))
+            {
+                ViewBag.MGVError = "Yêu cầu nhập mã giảng viên.";
+            }
+            else
+            {
+                using (QLSVEntities db = new QLSVEntities())
+                {
+                    // Kiểm tra xem MGV đã tồn tại trong cơ sở dữ liệu hay chưa
+                    if (db.GiangViens.Any(gv => gv.MGV == giangVien.MGV))
+                    {
+                        ViewBag.MGVError = "Mã giảng viên đã tồn tại. Vui lòng sử dụng mã khác.";
+                    }
+                }
+            }
+
             if (giangVien.NgaySinhGV == null || giangVien.NgaySinhGV == DateTime.MinValue)
             {
-                ModelState.Remove("NgaySinhGV");
                 ViewBag.NgaySinhGVError = "Yêu cầu nhập ngày sinh giảng viên.";
             }
-            else if (giangVien.NgaySinhGV.Year > 2006)
+            else
             {
-                ModelState.AddModelError("NgaySinhGV", "Chưa đủ 18 tuổi.");
+                int currentYear = DateTime.Now.Year;
+                int birthYear = giangVien.NgaySinhGV.Year;
+                int age = currentYear - birthYear;
+
+                if (age < 18)
+                {
+                    ViewBag.NgaySinhGVError = "Chưa đủ 18 tuổi.";
+                }
+                else
+                {
+                    try
+                    {
+                        using (QLSVEntities db = new QLSVEntities())
+                        {
+                            db.GiangViens.Add(giangVien);
+                            db.SaveChanges();
+                            return RedirectToAction("DanhSachGiangVien");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.ErrorMessage = "Có lỗi xảy ra khi thêm giảng viên: " + ex.Message;
+                    }
+                }
             }
 
             // Kiểm tra trường "GioiTinh"
             if (giangVien.GioiTinh == null)
             {
-                ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính giảng viên.");
+                ViewBag.GioiTinhError = "Yêu cầu chọn giới tính giảng viên.";
             }
 
             if (string.IsNullOrEmpty(giangVien.MaKhoa))
@@ -77,31 +114,11 @@ namespace test3.Controllers
                 ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa giảng viên.";
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    QLSVEntities db = new QLSVEntities();
-                    db.GiangViens.Add(giangVien);
-                    db.SaveChanges();
-                    return RedirectToAction("DanhSachGiangVien");
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var validationErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            // In lỗi kiểm tra cụ thể
-                            Console.WriteLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
-                        }
-                    }
-                }
-            }
-
-            ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
             return View(giangVien);
         }
+
+
+
 
 
         public ActionResult Xoa(string id)
@@ -117,8 +134,8 @@ namespace test3.Controllers
         {
             QLSVEntities db = new QLSVEntities();
             var giangVien = db.GiangViens.Find(id);
-           
-           
+
+            ViewBag.KhoaCu = giangVien.MaKhoa;
             return View(giangVien);
         }
         [HttpPost]
@@ -139,18 +156,40 @@ namespace test3.Controllers
 
             if (giangVien.NgaySinhGV == null || giangVien.NgaySinhGV == DateTime.MinValue)
             {
-                ModelState.Remove("NgaySinhGV");
                 ViewBag.NgaySinhGVError = "Yêu cầu nhập ngày sinh giảng viên.";
             }
-            else if (giangVien.NgaySinhGV.Year > 2006)
+            else
             {
-                ModelState.AddModelError("NgaySinhGV", "Chưa đủ 18 tuổi.");
+                int currentYear = DateTime.Now.Year;
+                int birthYear = giangVien.NgaySinhGV.Year;
+                int age = currentYear - birthYear;
+
+                if (age < 18)
+                {
+                    ViewBag.NgaySinhGVError = "Chưa đủ 18 tuổi.";
+                }
+                else
+                {
+                    try
+                    {
+                        using (QLSVEntities db = new QLSVEntities())
+                        {
+                            db.Entry(giangVien).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("DanhSachGiangVien");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.ErrorMessage = "Có lỗi xảy ra khi thêm giảng viên: " + ex.Message;
+                    }
+                }
             }
 
             // Kiểm tra trường "GioiTinh"
             if (giangVien.GioiTinh == null)
             {
-                ModelState.AddModelError("GioiTinh", "Yêu cầu chọn giới tính giảng viên.");
+                ViewBag.GioiTinhError = "Yêu cầu chọn giới tính giảng viên.";
             }
 
             if (string.IsNullOrEmpty(giangVien.MaKhoa))
@@ -158,31 +197,9 @@ namespace test3.Controllers
                 ViewBag.MaKhoaError = "Yêu cầu chọn mã khoa giảng viên.";
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    QLSVEntities db = new QLSVEntities();
-                    db.Entry(giangVien).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("DanhSachGiangVien");
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var validationErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            // In lỗi kiểm tra cụ thể
-                            Console.WriteLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
-                        }
-                    }
-                }
-            }
-
-            ViewBag.ErrorMessage = "Yêu cầu nhập đủ thông tin.";
             return View(giangVien);
         }
+
 
 
         [HttpGet]
